@@ -58,12 +58,23 @@ class MyAppState extends ChangeNotifier {
     notifyListeners();
   }
   var favorites = <String>[];
+  var  criteres = <bool>[];
 
   void toggleFavorite(String current) {
     if (favorites.contains(current)) {
       favorites.remove(current);
     } else {
       favorites.add(current);
+    }
+    notifyListeners();
+  }
+
+  void critere(){
+    if (criteres[0]){
+      criteres[0]=false;
+    }
+    else{
+      criteres[0]=true;
     }
     notifyListeners();
   }
@@ -77,16 +88,6 @@ class MyAppState extends ChangeNotifier {
     notifyListeners();
     
   }
-  void nomjoueur(String pair, int J){
-    int n = Liste_joueurs.length;
-    for (int j=0;j<n;j++){
-      if ("${MyAppState.Liste_joueurs[j].prenom}" " ${MyAppState.Liste_joueurs[j].nom}"==pair){
-        int J = j;
-      }
-    }
-  }
-
-
 }
 
 class MyHomePage extends StatefulWidget {
@@ -113,7 +114,7 @@ class _MyHomePageState extends State<MyHomePage> {
 
   Widget build(BuildContext context) {
     Widget page;
-switch (selectedIndex+Categorie.cat) {
+switch (selectedIndex) {
   case 1:
     page = FavoritesPage();
     break;
@@ -126,7 +127,6 @@ switch (selectedIndex+Categorie.cat) {
   case 3:
     page = Cat1();
     break;
-    
   default:
     throw UnimplementedError('no widget for $selectedIndex');
 }
@@ -230,6 +230,18 @@ class FavoritesPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     var appState = context.watch<MyAppState>();
+
+    int nomjoueur(String pair, int J){
+      int n = MyAppState.Liste_joueurs.length;
+      for (int j=0;j<n;j++){
+        //print("${MyAppState.Liste_joueurs[j].prenom}" " ${MyAppState.Liste_joueurs[j].nom}");
+        if ("${MyAppState.Liste_joueurs[j].prenom}" " ${MyAppState.Liste_joueurs[j].nom}"==pair){
+          print('oui');
+          J = j;
+        }
+     }
+    return J;
+    }
     
     IconData icon;
     icon = Icons.favorite;
@@ -257,13 +269,14 @@ class FavoritesPage extends StatelessWidget {
             ),
             title: TextButton(
               onPressed: (){
+                print(pair);
                 int J=0;
-                appState.nomjoueur(pair,J);
+                print(" le J final est $nomjoueur(pair,J);");
                 Navigator.push(
                   context,
                   MaterialPageRoute(
                     builder: (context) => DetailPage(
-                      J: J
+                      J: nomjoueur(pair,J)
                     ),
                   ),
                 );
@@ -370,18 +383,7 @@ class DetailPage extends StatelessWidget {
         body: Padding(
           padding : const EdgeInsets.all(16.0),
           child : Column(
-          children: [/*
-            Container(
-              width: double.infinity,
-              height: 200,
-            decoration: BoxDecoration(
-                gradient: LinearGradient(
-                  begin: Alignment.topLeft,
-                  end: Alignment.bottomRight,
-                  colors: [const Color.fromARGB(255, 255, 255, 255), const Color.fromARGB(255, 28, 31, 28)],
-                ),
-            ),
-          ),*/
+          children: [
             Image.asset(
               MyAppState.Liste_joueurs[J].image,
               width: 500,
@@ -444,7 +446,6 @@ class DetailPage extends StatelessWidget {
                     : Icons.favorite_border,
                 semanticLabel: 'like',
                 ),
-                color: const Color.fromARGB(255, 13, 12, 12),
                 onPressed: (){
                   appState.toggleFavorite("${MyAppState.Liste_joueurs[J].prenom}" " ${MyAppState.Liste_joueurs[J].nom}");
               },
@@ -457,59 +458,144 @@ class DetailPage extends StatelessWidget {
     );
   }
 }
-  
 class Categorie extends StatelessWidget {
-  static int cat = 0;
-
   @override
   Widget build(BuildContext context) {
     var appState = context.watch<MyAppState>();
-    var cate = <String>["cat1","cat2","cat3","cat4","cat5","cat6"];
+    int n = MyAppState.Liste_joueurs.length;
+    bool estCochee= false;
+    appState.criteres.add(false);
     
-    return Column(
-      crossAxisAlignment: CrossAxisAlignment.start,
+    
+    return ListView(
       children: [
         Padding(
-          padding: const EdgeInsets.all(30),
-          child: Text('You have '
-              '${appState.favorites.length} favorites:'),
+          padding: const EdgeInsets.all(20),
+          child: Text(
+            appState.favorites.length>1
+            ? 'Vous avez ${appState.favorites.length} joueurs préférés:'
+            : 'Vous avez ${appState.favorites.length} joueur préféré:',
         ),
-        Expanded(
-          // Make better use of wide windows with a grid.
-          child: GridView(
-            gridDelegate: SliverGridDelegateWithMaxCrossAxisExtent(
-              maxCrossAxisExtent: 350,
-              childAspectRatio: 150 / 90,
-            ),
-            children: [
-              for (var pair in cate)
-                ListTile(
-                  title: TextButton(
+        ),
+        Row(
+          children: [
+        SizedBox(width: 10),
+        Text("Gardien"),
+        IconButton(
+              icon: Icon(
+                appState.criteres[0]
+                    ? Icons.check_box
+                    : Icons.check_box_outline_blank,
+                semanticLabel: 'like',
+
+                ),
+                //color: const Color.fromARGB(255, 0, 0, 0),
               onPressed: (){
-                print(cat);
+                appState.critere();
+                print(appState.criteres[0]);
+              },
+            ),
+            SizedBox(width: 10),
+        Text("Défenseur"),
+        IconButton(
+              icon: Icon(
+                appState.criteres[0]
+                    ? Icons.check_box
+                    : Icons.check_box_outline_blank,
+                semanticLabel: 'like',
+
+                ),
+                //color: const Color.fromARGB(255, 0, 0, 0),
+              onPressed: (){
+                appState.critere();
+                print(appState.criteres[0]);
+              },
+            ),
+            SizedBox(width: 10),
+        Text("Milieu"),
+        IconButton(
+              icon: Icon(
+                appState.criteres[0]
+                    ? Icons.check_box
+                    : Icons.check_box_outline_blank,
+                semanticLabel: 'like',
+
+                ),
+                //color: const Color.fromARGB(255, 0, 0, 0),
+              onPressed: (){
+                appState.critere();
+                print(appState.criteres[0]);
+              },
+            ),
+            SizedBox(width: 10),
+        Text("Attaquant"),
+        IconButton(
+              icon: Icon(
+                appState.criteres[0]
+                    ? Icons.check_box
+                    : Icons.check_box_outline_blank,
+                semanticLabel: 'like',
+
+                ),
+                //color: const Color.fromARGB(255, 0, 0, 0),
+              onPressed: (){
+                appState.critere();
+                print(appState.criteres[0]);
+              },
+            ),
+          ]
+        ),
+
+        for (int j=0;j<n;j++)
+          ListTile(
+            leading: IconButton(
+              icon: Icon(
+                appState.favorites.contains("${MyAppState.Liste_joueurs[j].prenom} ${MyAppState.Liste_joueurs[j].nom}")
+                    ? Icons.favorite
+                    : Icons.favorite_border,
+                semanticLabel: 'like',
+
+                ),
+                //color: const Color.fromARGB(255, 0, 0, 0),
+              onPressed: (){
+                appState.toggleFavorite("${MyAppState.Liste_joueurs[j].prenom}" " ${MyAppState.Liste_joueurs[j].nom}");
+              },
+            ),
+            
+            title: TextButton(
+              onPressed: (){
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(
+                    builder: (context) => DetailPage(
+                      J: j,
+                    ),
+                  ),
+                );
               },
               style: TextButton.styleFrom(
-                foregroundColor: Colors.white, // Couleur du texte
-                backgroundColor: const Color.fromARGB(255, 153, 68, 43), // Couleur de fond
-                padding: EdgeInsets.symmetric(horizontal: 40, vertical: 40), // Padding
-                textStyle: TextStyle(fontSize: 25),
-                shape: RoundedRectangleBorder(
-                  borderRadius: BorderRadius.circular(20)
-                ) // Taille du texte
-  ),
-              child: Text(pair
-                  ),
-                  ),
-                ),
-              
-            ],
+                //foregroundColor: Colors.white, // Couleur du texte
+                //backgroundColor: const Color.fromARGB(255, 0, 0, 0), // Couleur de fond
+                padding: EdgeInsets.symmetric(horizontal: 20, vertical: 10), // Padding
+                textStyle: TextStyle(fontSize: 18), // Taille du texte
+                      ),
+              child: Row(
+                children: [ 
+                  SizedBox(width: 10),
+                  Image.asset(
+                    MyAppState.Liste_joueurs[j].image,
+                    width: 120,
+                    height: 80,),
+                  SizedBox(width: 10),
+                  Text("${MyAppState.Liste_joueurs[j].prenom}" " ${MyAppState.Liste_joueurs[j].nom}")
+              ],
+              ),
           ),
-        ),
+          ),
       ],
     );
   }
 }
-
 
 class Cat1 extends StatelessWidget {
   @override
