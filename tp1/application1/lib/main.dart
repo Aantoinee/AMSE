@@ -120,112 +120,48 @@ switch (selectedIndex) {
     page = FavoritesPage();
     break;
   case 0:
-    page = Fiche();
-    break;
-  case 2:
     page = Categorie();
     break;
-  case 3:
-    page = Cat1();
-    break;
+  case 2:
+    page = About();
+    break;  
   default:
     throw UnimplementedError('no widget for $selectedIndex');
 }
     return LayoutBuilder(
       builder: (context, constraints) {
-        return Scaffold(
-          body: Row(
-            children: [
-              SafeArea(
-                child: NavigationRail(
-                  extended: constraints.maxWidth >= 800,
-                  destinations: [
-                    NavigationRailDestination(
-                      icon: Icon(Icons.home),
-                      label: Text('Home'),
-                    ),
-                    NavigationRailDestination(
-                      icon: Icon(Icons.favorite),
-                      label: Text('Favorites'),
-                    ),
-                    NavigationRailDestination(
-                      icon: Icon(Icons.library_add),
-                      label: Text('Média'),
-                    ),
-                    NavigationRailDestination(
-                      icon: Icon(Icons.library_books),
-                      label: Text('Catégorie'),
-                    ),
-                  ],
-                  selectedIndex: selectedIndex,
-                  onDestinationSelected: (value) {
-                    setState(() {
-                      selectedIndex = value;
-                    });
-                  },
-                ),
-              ),
-              Expanded(
-                child: Container(
-                  color: Theme.of(context).colorScheme.primaryContainer,
-                  child: page,
-                ),
-              ),
-            ],
+            return Scaffold(
+      body: page,
+      bottomNavigationBar: BottomNavigationBar(
+        currentIndex: selectedIndex,
+        unselectedItemColor: Theme.of(context).colorScheme.primaryContainer,
+        selectedItemColor: Theme.of(context).colorScheme.primaryContainer,
+        onTap: (value) {
+          setState(() {
+            selectedIndex = value;
+          });
+        },
+        items: const [
+          BottomNavigationBarItem(
+            icon: Icon(Icons.home),
+            label: 'Home',
           ),
-        );
-      }
-    );
-  }
-}
-/*
-class GeneratorPage extends StatelessWidget {
-  @override
-  Widget build(BuildContext context) {
-    var appState = context.watch<MyAppState>();
-    var pair = appState.current;
-
-    IconData icon;
-    if (appState.favorites.contains(pair)) {
-      icon = Icons.favorite;
-    } else {
-      icon = Icons.favorite_border;
-    }
-    
-
-    return Center(
-      child: Column(
-        mainAxisAlignment: MainAxisAlignment.center,
-        children: [
-          BigCard(pair: pair),
-          SizedBox(height: 10),
-          Row(
-            mainAxisSize: MainAxisSize.min,
-            children: [
-              ElevatedButton.icon(
-                  onPressed: () {
-                    appState.toggleFavorite();
-                  },
-                  icon: Icon(icon),
-                  label: Text('Like'),
-                ),
-                SizedBox(width: 10),
-
-              ElevatedButton( 
-                onPressed: () {
-                  appState.getNext();
-                },
-                child: Text('Next'),
-              ),
-              SizedBox(width: 10),
-            ],
+          
+          BottomNavigationBarItem(
+            icon: Icon(Icons.favorite),
+            label: 'Favorites',
+          ),
+          BottomNavigationBarItem(
+            icon: Icon(Icons.library_add),
+            label: 'About',
           ),
         ],
       ),
     );
   }
+  );
 }
-*/
+}
 
 class FavoritesPage extends StatelessWidget {
   @override
@@ -235,7 +171,6 @@ class FavoritesPage extends StatelessWidget {
     int nomjoueur(String pair, int J){
       int n = MyAppState.Liste_joueurs.length;
       for (int j=0;j<n;j++){
-        //print("${MyAppState.Liste_joueurs[j].prenom}" " ${MyAppState.Liste_joueurs[j].nom}");
         if ("${MyAppState.Liste_joueurs[j].prenom}" " ${MyAppState.Liste_joueurs[j].nom}"==pair){
           print('oui');
           J = j;
@@ -248,7 +183,7 @@ class FavoritesPage extends StatelessWidget {
     icon = Icons.favorite;
     int n = MyAppState.Liste_joueurs.length;
 
-    return ListView(
+    return Column(
       children: [
         Padding(
           padding: const EdgeInsets.all(20),
@@ -256,23 +191,29 @@ class FavoritesPage extends StatelessWidget {
             appState.favorites.length>1
             ? 'Vous avez ${appState.favorites.length} joueurs préférés:'
             : 'Vous avez ${appState.favorites.length} joueur préféré:',
+        style : TextStyle(
+          fontSize: 20
+        )
+          ),
         ),
-        ),
-
+        Expanded (
+          child: GridView(
+          gridDelegate: SliverGridDelegateWithMaxCrossAxisExtent(
+            maxCrossAxisExtent: 400,
+            childAspectRatio: 400 /100
+            ),
+        children: [    
         for (var pair in appState.favorites)
           ListTile(
             leading: IconButton(
               icon: Icon(Icons.delete_outline, semanticLabel: 'Delete'),
-              //color: const Color.fromARGB(255, 1, 1, 1),
               onPressed: (){
                 appState.removeFavorite(pair);
               },
             ),
             title: TextButton(
               onPressed: (){
-                print(pair);
                 int J=0;
-                print(" le J final est $nomjoueur(pair,J);");
                 Navigator.push(
                   context,
                   MaterialPageRoute(
@@ -283,90 +224,37 @@ class FavoritesPage extends StatelessWidget {
                 );
               },
               style: TextButton.styleFrom(
-                //foregroundColor: Colors.white, // Couleur du texte
-                //backgroundColor: const Color.fromARGB(255, 0, 0, 0), // Couleur de fond
-                padding: EdgeInsets.symmetric(horizontal: 20, vertical: 10), // Padding
-                textStyle: TextStyle(fontSize: 18), // Taille du texte
-  ),
+                padding: EdgeInsets.symmetric(horizontal: 20, vertical: 10),
+                textStyle: TextStyle(fontSize: 18),
+                ),
               child: Text("$pair"),
           ),
           ),
       ],
+    ),
+        )
+    ]
     );
   }
 }
 
 
-class Fiche extends StatelessWidget {
+
+
+
+class About extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     var appState = context.watch<MyAppState>();
-    int n = MyAppState.Liste_joueurs.length;
-    IconData icon2 ;
-    
-    
-    return ListView(
-      children: [
-        Padding(
-          padding: const EdgeInsets.all(20),
-          child: Text(
-            appState.favorites.length>1
-            ? 'Vous avez ${appState.favorites.length} joueurs préférés:'
-            : 'Vous avez ${appState.favorites.length} joueur préféré:',
-        ),
-        ),
-        for (int j=0;j<n;j++)
-          ListTile(
-            leading: IconButton(
-              icon: Icon(
-                appState.favorites.contains("${MyAppState.Liste_joueurs[j].prenom} ${MyAppState.Liste_joueurs[j].nom}")
-                    ? Icons.favorite
-                    : Icons.favorite_border,
-                semanticLabel: 'like',
 
-                ),
-                //color: const Color.fromARGB(255, 0, 0, 0),
-              onPressed: (){
-                appState.toggleFavorite("${MyAppState.Liste_joueurs[j].prenom}" " ${MyAppState.Liste_joueurs[j].nom}");
-              },
-            ),
-            
-            title: TextButton(
-              onPressed: (){
-                Navigator.push(
-                  context,
-                  MaterialPageRoute(
-                    builder: (context) => DetailPage(
-                      J: j,
-                    ),
-                  ),
-                );
-              },
-              style: TextButton.styleFrom(
-                //foregroundColor: Colors.white, // Couleur du texte
-                //backgroundColor: const Color.fromARGB(255, 0, 0, 0), // Couleur de fond
-                padding: EdgeInsets.symmetric(horizontal: 20, vertical: 10), // Padding
-                textStyle: TextStyle(fontSize: 18), // Taille du texte
-                      ),
-              child: Row(
-                children: [ 
-                  SizedBox(width: 10),
-                  Image.asset(
-                    MyAppState.Liste_joueurs[j].image,
-                    width: 120,
-                    height: 80,),
-                  SizedBox(width: 10),
-                  Text("${MyAppState.Liste_joueurs[j].prenom}" " ${MyAppState.Liste_joueurs[j].nom}")
-              ],
-              ),
-          ),
-          ),
-      ],
+    return Column(
+      children: [
+          Text('Cette application a été développée par Antoine Gueudet.'),
+          Text('Elle y référence les joueurs emblématiques du SCO de Angers.')
+    ]
     );
   }
 }
-
-
 
 class DetailPage extends StatelessWidget {
   final int J;
@@ -377,18 +265,30 @@ class DetailPage extends StatelessWidget {
   Widget build(BuildContext context) {
     var appState = context.watch<MyAppState>();
 
+
+    double hauteur_img(double taille){
+      if (taille>450){
+        return taille/2;
+      }
+      return taille/3;
+    }
+
     return Scaffold(
       appBar: AppBar(
         title: Text('Détails du joueur'),
       ),
-        body: Padding(
+        body: SingleChildScrollView(
           padding : const EdgeInsets.all(16.0),
-          child : Column(
+          child : 
+          Center (
+            child:
+          Column(
           children: [
             Image.asset(
               MyAppState.Liste_joueurs[J].image,
-              width: 500,
-              height: 300,),
+              width: MediaQuery.of(context).size.width,
+              height: hauteur_img(MediaQuery.of(context).size.height)
+              ),
             SizedBox(height: 30),
             Row(
               mainAxisSize: MainAxisSize.min,
@@ -401,17 +301,15 @@ class DetailPage extends StatelessWidget {
               ],
             ),
             SizedBox(height: 20),
-            Flexible(
-              child:
-              Text('Description : ${MyAppState.Liste_joueurs[J].description}',
-              overflow: TextOverflow.ellipsis,),
-              
-            ),
+            Text('Description : ${MyAppState.Liste_joueurs[J].description}',
+            textAlign: TextAlign.center,),
             SizedBox(height: 20),
+
             Row(
               mainAxisSize: MainAxisSize.min,
               children: [
                 Column(
+                  mainAxisAlignment: MainAxisAlignment.center,
                   children : [
                   Text('Prénom : ${MyAppState.Liste_joueurs[J].prenom}'),
                   SizedBox(height: 20),
@@ -419,15 +317,20 @@ class DetailPage extends StatelessWidget {
                   SizedBox(height: 20),
                   Text('Nombre de buts : ${MyAppState.Liste_joueurs[J].but}'),
                   SizedBox(height: 20),
-                  Text('Pays : ${MyAppState.Liste_joueurs[J].pays}'),
+                  if (MyAppState.Liste_joueurs[J].saison.length<9)
+                  Text('Saison : ${MyAppState.Liste_joueurs[J].saison}'),
+                  if (MyAppState.Liste_joueurs[J].saison.length>=9)
+                  Text('Saison : ${MyAppState.Liste_joueurs[J].saison.substring(0,9)}'),
+                  if (MyAppState.Liste_joueurs[J].saison.length>11)
+                  Text(MyAppState.Liste_joueurs[J].saison.substring(10,22))
                   ]  
                 ),
-                SizedBox(width: 50),
+                SizedBox(width: 30),
                 Column(
                   children : [
                   Text('Nom : ${MyAppState.Liste_joueurs[J].nom}'),
                   SizedBox(height: 20),
-                  Text('Saison : ${MyAppState.Liste_joueurs[J].saison}'),
+                  Text('Pays : ${MyAppState.Liste_joueurs[J].pays}'),
                   SizedBox(height: 20),
                   Text('Nombre de match : ${MyAppState.Liste_joueurs[J].match}'),
                   SizedBox(height: 20),
@@ -456,6 +359,7 @@ class DetailPage extends StatelessWidget {
           ]
       ),
       ),
+    )
     );
   }
 }
@@ -464,7 +368,10 @@ class Categorie extends StatelessWidget {
   Widget build(BuildContext context) {
     var appState = context.watch<MyAppState>();
     int n = MyAppState.Liste_joueurs.length;
+
+    List poste = <String>['Gardien', 'Défenseur', 'Milieu', 'Attaquant'];
     List nationalite = <String>[];
+    List nationalite2 = <String>[];
     for (int i=0;i<n;i++){
     if (nationalite.contains(MyAppState.Liste_joueurs[i].pays)==false){
         nationalite.add(MyAppState.Liste_joueurs[i].pays);
@@ -497,117 +404,131 @@ class Categorie extends StatelessWidget {
       return false;
     }
 
+    bool test_nat(String pays){
+        if (nationalite2.contains(pays)==false){
+          nationalite2.add(pays);
+          return true;
+        }
+      return false;
+    }
+
+
+    double hauteur_critere(double taille, double chg){
+      if (taille>chg){
+        return 90;
+      }
+      if (taille<350){
+        return taille/1.5;
+      }
+      return taille/3;
+    }
+
+    double taille_critere(double taille){
+      if (taille<350){
+        return 180;
+      }
+      return 150;
+    }
+
+    double taille_button(double taille){
+      if (taille<420){
+        return 100;
+      }
+      return 150;
+    }
+
 
     return ListView(
       children: [
-        Padding(
-          padding: const EdgeInsets.all(20),
-          child: Text(
-            appState.favorites.length>1
-            ? 'Vous avez ${appState.favorites.length} joueurs préférés:'
-            : 'Vous avez ${appState.favorites.length} joueur préféré:',
-        ),
-        ),
-        ConstrainedBox(
-          constraints: BoxConstraints(
-            maxHeight: MediaQuery.of(context).size.width,
-            maxWidth: MediaQuery.of(context).size.height,
+        Padding(padding: const EdgeInsets.all(20),
+        child: Text('Poste du joueur :',
+          style: TextStyle(
+          fontSize: 20
+          )
           ),
-          child :
-        Column(
+        ),
+        SizedBox(
+          height: hauteur_critere(MediaQuery.of(context).size.width,450),
+          child : Column(
+          mainAxisSize: MainAxisSize.min,
           children: [
-        SizedBox(width: 10),
-        Text("Gardien"),
-        IconButton(
-              icon: Icon(
-                appState.criteres[0]
-                    ? Icons.check_box
-                    : Icons.check_box_outline_blank,
-                semanticLabel: 'like',
+            Flexible(
+              fit: FlexFit.loose,
+              child: GridView(
+                gridDelegate: SliverGridDelegateWithMaxCrossAxisExtent(
+                  maxCrossAxisExtent: taille_critere(MediaQuery.of(context).size.width),
+                  childAspectRatio: 200/100 
+                  ),
+                  children: [
+                    for (int i=0;i<poste.length;i++)
+                       Column(
+                          children: [
+                        Text("${poste[i]}"),
+                        IconButton(
+                              icon: Icon(
+                                appState.criteres[i]
+                                    ? Icons.check_box
+                                    : Icons.check_box_outline_blank,
+                                semanticLabel: 'like',
 
-                ),
-                //color: const Color.fromARGB(255, 0, 0, 0),
-              onPressed: (){
-                appState.critere(0);
-              
-              },
-            ),
-            SizedBox(width: 10),
-        Text("Défenseur"),
-        IconButton(
-              icon: Icon(
-                appState.criteres[1]
-                    ? Icons.check_box
-                    : Icons.check_box_outline_blank,
-                semanticLabel: 'like',
-
-                ),
-                //color: const Color.fromARGB(255, 0, 0, 0),
-              onPressed: (){
-                appState.critere(1);
-              },
-            ),
-            SizedBox(width: 10),
-        Text("Milieu"),
-        IconButton(
-              icon: Icon(
-                appState.criteres[2]
-                    ? Icons.check_box
-                    : Icons.check_box_outline_blank,
-                semanticLabel: 'like',
-
-                ),
-                //color: const Color.fromARGB(255, 0, 0, 0),
-              onPressed: (){
-                appState.critere(2);
-              },
-            ),
-            SizedBox(width: 10),
-        Text("Attaquant"),
-        IconButton(
-              icon: Icon(
-                appState.criteres[3]
-                    ? Icons.check_box
-                    : Icons.check_box_outline_blank,
-                semanticLabel: 'like',
-
-                ),
-                //color: const Color.fromARGB(255, 0, 0, 0),
-              onPressed: (){
-                appState.critere(3);
-              },
-            ),
+                                ),
+                              onPressed: (){
+                                appState.critere(i);
+                              },
+                            ),
+                          ]
+                        ),
           ]
         ),
+            )
+          ],
         ),
-
-        ConstrainedBox(
-          constraints: BoxConstraints(
-            maxHeight: MediaQuery.of(context).size.width,
-            maxWidth: MediaQuery.of(context).size.height,
+        ),
+        Padding(padding: const EdgeInsets.all(20),
+        child: Text('Nationalité du joueur :',
+          style: TextStyle(
+          fontSize: 20
+          )
           ),
-          child :
-        Column(
-          children: List.generate(nationalite.length, (i) {
-            return [
-              SizedBox(width: 10),
-              Text("${nationalite[i]}"),
-              IconButton(
-                icon: Icon(
-                  appState.criteres[4 + i]
-                      ? Icons.check_box
-                      : Icons.check_box_outline_blank,
-                  semanticLabel: 'like',
-                ),
-                onPressed: () {
-                  appState.critere(4 + i);
-                },
-              ),
-            ];
-          }).expand((element) => element).toList(),
         ),
-        ),
+        SizedBox(
+          height: hauteur_critere(MediaQuery.of(context).size.width,600),
+          child : Column(
+          mainAxisSize: MainAxisSize.min,
+          children: [
+            Flexible(
+              fit: FlexFit.loose,
+              child: GridView(
+                gridDelegate: SliverGridDelegateWithMaxCrossAxisExtent(
+                  maxCrossAxisExtent: taille_critere(MediaQuery.of(context).size.width),
+                  childAspectRatio: 200/100 
+                  ),
+                  children: [
+                    for (int i=0;i<nationalite.length;i++)
+                      if (test_nat(nationalite[i]))
+                       Column(
+                          children: [
+                        Text("${nationalite[i]}"),
+                        IconButton(
+                              icon: Icon(
+                                appState.criteres[4+i]
+                                    ? Icons.check_box
+                                    : Icons.check_box_outline_blank,
+                                semanticLabel: 'like',
 
+                                ),
+                              onPressed: (){
+                                appState.critere(4+i);
+                              },
+                            ),
+                          ]
+                        ),
+                  ]
+              )
+        ),
+                  ]
+        )
+            ),
         for (int j=0;j<n;j++)
           if ((MyAppState.Liste_joueurs[j].poste=='Gardien')&&(appState.criteres[0])
           || (MyAppState.Liste_joueurs[j].poste=='Défenseur')&&(appState.criteres[1])
@@ -617,11 +538,7 @@ class Categorie extends StatelessWidget {
           if ((verif_nat(j))
           || (nat(appState.criteres.sublist(4,appState.criteres.length))==false)
           )
-            ConstrainedBox(
-              constraints: BoxConstraints(
-                maxWidth: MediaQuery.of(context).size.width,
-              ),
-            child: ListTile(
+            ListTile(
               leading: IconButton(
                 icon: Icon(
                   appState.favorites.contains("${MyAppState.Liste_joueurs[j].prenom} ${MyAppState.Liste_joueurs[j].nom}")
@@ -630,7 +547,6 @@ class Categorie extends StatelessWidget {
                   semanticLabel: 'like',
 
                   ),
-                  //color: const Color.fromARGB(255, 0, 0, 0),
                 onPressed: (){
                   appState.toggleFavorite("${MyAppState.Liste_joueurs[j].prenom}" " ${MyAppState.Liste_joueurs[j].nom}");
                 },
@@ -643,83 +559,30 @@ class Categorie extends StatelessWidget {
                     MaterialPageRoute(
                       builder: (context) => DetailPage(
                         J: j,
-                      ),
-                    ),
-                  );
-                },
+                                  ),
+                                ),
+                              );
+                            },
                 style: TextButton.styleFrom(
-                  //foregroundColor: Colors.white, // Couleur du texte
-                  //backgroundColor: const Color.fromARGB(255, 0, 0, 0), // Couleur de fond
                   padding: EdgeInsets.symmetric(horizontal: 20, vertical: 10), // Padding
-                  textStyle: TextStyle(fontSize: 15), // Taille du texte
+                  textStyle: TextStyle(fontSize: 20),
+                   // Taille du texte
                         ),
                 child: Row(
                   children: [ 
                     SizedBox(width: 10),
                     Image.asset(
                       MyAppState.Liste_joueurs[j].image,
-                      width: 120,
+                      width: taille_button(MediaQuery.of(context).size.width),
                       height: 80,),
                     SizedBox(width: 10),
                     Text("${MyAppState.Liste_joueurs[j].prenom}" " ${MyAppState.Liste_joueurs[j].nom}")
-                ],
+                  ],
                 ),
+              ),
             ),
-            ),
-            )
         ],
       );
-  }
-}
-
-class Cat1 extends StatelessWidget {
-  @override
-  Widget build(BuildContext context) {
-    var appState = context.watch<MyAppState>();
-    var cate = <String>["cat1"];
-
-
-    return Column(
-      crossAxisAlignment: CrossAxisAlignment.start,
-      children: [
-        Padding(
-          padding: const EdgeInsets.all(30),
-          child: Text('You have '
-              '${appState.favorites.length} favorites:'),
-        ),
-        Expanded(
-          // Make better use of wide windows with a grid.
-          child: GridView(
-            gridDelegate: SliverGridDelegateWithMaxCrossAxisExtent(
-              maxCrossAxisExtent: 350,
-              childAspectRatio: 150 / 90,
-            ),
-            children: [
-              for (var pair in cate)
-                ListTile(
-                  title: TextButton(
-              onPressed: (){
-                print('bouton');
-              },
-              style: TextButton.styleFrom(
-                foregroundColor: Colors.white, // Couleur du texte
-                backgroundColor: const Color.fromARGB(255, 153, 68, 43), // Couleur de fond
-                padding: EdgeInsets.symmetric(horizontal: 40, vertical: 40), // Padding
-                textStyle: TextStyle(fontSize: 25),
-                shape: RoundedRectangleBorder(
-                  borderRadius: BorderRadius.circular(20)
-                ) // Taille du texte
-  ),
-              child: Text(pair
-                  ),
-                  ),
-                ),
-              
-            ],
-          ),
-        ),
-      ],
-    );
   }
 }
 

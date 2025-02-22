@@ -19,9 +19,21 @@
         "image":"assets/image/ndoye.jpg",
         "match": "100",
         "but": "16",
-        "saison": "2015-2017  et 2018-2019",
+        "saison": "2015-2017 et 2018-2019",
         "pays":"Sénégal",
         "description": "Capitaine exemplaire de l'équipe lors de sa première saison dans l'élite"
+    },
+    {
+        "name": "Cho",
+        "prénom": "Mohamed-Ali",
+        "poste": "Attaquant",
+        "numéro": "21",
+        "image":"assets/image/cho.jpg",
+        "match": "55",
+        "but": "4",
+        "saison": "2020-2022",
+        "pays":"France",
+        "description": "Repéré par le club à 16 ans, il fait ses grands débuts en ligue 1 la même année, devant le plus jeune joueur du club à jouer en ligue 1."
     },
     {
         "name": "Traoré",
@@ -34,6 +46,18 @@
         "saison": "2015-2022",
         "pays":"Côte d'Ivoire",
         "description": "Capitaine pendant les 3 dernières saisons au club, il est un grand artisant du maintien du club dans l'élite"
+    },
+    {
+        "name": "Mangani",
+        "prénom": "Thomas",
+        "poste": "Milieu",
+        "numéro": "5",
+        "image":"assets/image/mangani.jpg",
+        "match": "242",
+        "but": "28",
+        "saison": "2015-2022",
+        "pays":"France",
+        "description": "D'une efficacité redoutable sur coup de pied arrété, il a su être décissif avec une incroyable constance."
     },
     {
         "name": "Pépé",
@@ -120,6 +144,30 @@
         "description": "Auteur d'une magnifique but contre Caen à domicile, il a su montrer l'envergure de son talent lors de ses 3 saisons angevines"
     },
     {
+        "name": "Saïss",
+        "prénom": "Romain",
+        "poste": "Défenseur",
+        "numéro": "28",
+        "image":"assets/image/saiss.jpg",
+        "match": "37",
+        "but": "2",
+        "saison": "2015-2016",
+        "pays":"Maroc",
+        "description": "Il obtient lors de son unique saison au SCO la distinction de meilleur joueur."
+    },
+    {
+        "name": "Auriac",
+        "prénom": "Olivier",
+        "poste": "Milieu",
+        "numéro": "7",
+        "image":"assets/image/auriac.jpg",
+        "match": "266",
+        "but": "11",
+        "saison": "2007-2016",
+        "pays":"France",
+        "description": "Il a contribué à la montée du SCO dans l'élite et a mis fin à sa carrière la saison suivante."
+    },
+    {
         "name": "Toko-Ekambi",
         "prénom": "Karl",
         "poste": "Attaquant",
@@ -154,6 +202,30 @@
         "saison": "2010-2014",
         "pays":"France",
         "description": "Actuel entraineur des gardiens, il a marqué le SCO en réalisant 4 saisons solides."
+    },
+    {
+        "name": "Angoula",
+        "prénom": "Gaël",
+        "poste": "Défenseur",
+        "numéro": "2",
+        "image":"assets/image/angoula.jpg",
+        "match": "80",
+        "but": "1",
+        "saison": "2013-2016",
+        "pays":"France",
+        "description": "Actuellement arbitre en ligue 1, il a contribué à la montée du SCO dans l'élite."
+    },
+    {
+        "name": "Charbonnier",
+        "prénom": "Gaëtan",
+        "poste": "Attaquant",
+        "numéro": "",
+        "image":"assets/image/charbonnier.jpg",
+        "match": "107",
+        "but": "31",
+        "saison": "2009-2012",
+        "pays":"France",
+        "description": "Attaquant vedette d l'équipe, il a su s'imposer au sein de l'attaque angevine."
     },
     {
         "name": "Kopa",
