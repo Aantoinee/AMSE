@@ -22,7 +22,7 @@ class MyApp extends StatelessWidget {
           useMaterial3: true,
           colorScheme: ColorScheme.fromSeed(
           seedColor : const Color.fromARGB(255, 45, 45, 1),
-          brightness: Brightness.dark,
+          brightness: Brightness.dark,        //thème sombre pour l'application
           )
         ),
         home: MyHomePage(),
@@ -32,7 +32,7 @@ class MyApp extends StatelessWidget {
 }
 
 class MyAppState extends ChangeNotifier {
-  static List<Joueurs> Liste_joueurs = [];
+  static List<Joueurs> Liste_joueurs = [];      //liste avec toutes les informations sur les joueurs
 
    Future<void> chargerJoueurs() async {
     try {
@@ -50,15 +50,8 @@ class MyAppState extends ChangeNotifier {
       print("Erreur lors du chargement des joueurs: $e");
     }
   }
-
-  //var current = WordPair.random();
-
-  void getNext(var current) {
-    current = WordPair.random();
-    notifyListeners();
-  }
-  var favorites = <String>[];
-  var  criteres = <bool>[];
+  var favorites = <String>[];   //liste des favoris
+  var  criteres = <bool>[];       //liste des critères pour la recherche de joueurs
 
 
   void toggleFavorite(String current) {
@@ -70,7 +63,9 @@ class MyAppState extends ChangeNotifier {
     notifyListeners();
   }
 
-  void critere(int i){
+
+  //lorsqu'on appuie sur un critère, celui-ci change d'état
+  void critere(int i){    
     if (criteres[i]){
       criteres[i]=false;
     }
@@ -172,16 +167,11 @@ class FavoritesPage extends StatelessWidget {
       int n = MyAppState.Liste_joueurs.length;
       for (int j=0;j<n;j++){
         if ("${MyAppState.Liste_joueurs[j].prenom}" " ${MyAppState.Liste_joueurs[j].nom}"==pair){
-          print('oui');
           J = j;
         }
      }
     return J;
     }
-    
-    IconData icon;
-    icon = Icons.favorite;
-    int n = MyAppState.Liste_joueurs.length;
 
     return Column(
       children: [
@@ -193,9 +183,9 @@ class FavoritesPage extends StatelessWidget {
             : 'Vous avez ${appState.favorites.length} joueur préféré:',
         style : TextStyle(
           fontSize: 20
-        )
-          ),
-        ),
+                )
+              ),
+            ),
         Expanded (
           child: GridView(
           gridDelegate: SliverGridDelegateWithMaxCrossAxisExtent(
@@ -228,17 +218,15 @@ class FavoritesPage extends StatelessWidget {
                 textStyle: TextStyle(fontSize: 18),
                 ),
               child: Text("$pair"),
+                ),
+              ),
+            ],
           ),
-          ),
-      ],
-    ),
         )
-    ]
+      ]
     );
   }
 }
-
-
 
 
 
@@ -250,8 +238,10 @@ class About extends StatelessWidget {
     return Column(
       children: [
           Text('Cette application a été développée par Antoine Gueudet.'),
-          Text('Elle y référence les joueurs emblématiques du SCO de Angers.')
-    ]
+          Text('Elle y référence les joueurs emblématiques du SCO de Angers.'),
+          SizedBox(height: 20),
+          Text("Pour rechercher des joueurs, j'ai mis seulement deux critères qui me semblaient être les plus pertinents. Cependant, il est tout a fait possible d'en ajouter plus.")
+      ]
     );
   }
 }
@@ -265,7 +255,10 @@ class DetailPage extends StatelessWidget {
   Widget build(BuildContext context) {
     var appState = context.watch<MyAppState>();
 
+    //la taille de la police varie en fonction de la taille de l'écran
+    double taille_police = 4.9+10/(1180-800)*MediaQuery.of(context).size.width;
 
+    //la taille de l'image du joueur varie en fonction de la taille de l'écran
     double hauteur_img(double taille){
       if (taille>450){
         return taille/2;
@@ -289,20 +282,23 @@ class DetailPage extends StatelessWidget {
               width: MediaQuery.of(context).size.width,
               height: hauteur_img(MediaQuery.of(context).size.height)
               ),
-            SizedBox(height: 30),
             Row(
               mainAxisSize: MainAxisSize.min,
               children: [
               Text(
                 '${MyAppState.Liste_joueurs[J].prenom} ${MyAppState.Liste_joueurs[J].nom}',
                 style: TextStyle(
-                  fontSize: 30
+                  fontSize: 23+10/(1180-800)*MediaQuery.of(context).size.width
                 )),
               ],
             ),
-            SizedBox(height: 20),
-            Text('Description : ${MyAppState.Liste_joueurs[J].description}',
-            textAlign: TextAlign.center,),
+            Padding(padding: const EdgeInsets.all(20),
+              child: Text('Description : ${MyAppState.Liste_joueurs[J].description}',
+            textAlign: TextAlign.center,
+            style: TextStyle(
+                  fontSize: taille_police+2,
+                )),
+                ),
             SizedBox(height: 20),
 
             Row(
@@ -311,30 +307,60 @@ class DetailPage extends StatelessWidget {
                 Column(
                   mainAxisAlignment: MainAxisAlignment.center,
                   children : [
-                  Text('Prénom : ${MyAppState.Liste_joueurs[J].prenom}'),
+                  Text('Prénom : ${MyAppState.Liste_joueurs[J].prenom}',
+                  style: TextStyle(
+                  fontSize: taille_police,
+                )),
                   SizedBox(height: 20),
-                  Text('Poste : ${MyAppState.Liste_joueurs[J].poste}'),
+                  Text('Poste : ${MyAppState.Liste_joueurs[J].poste}',
+                  style: TextStyle(
+                  fontSize: taille_police,
+                )),
                   SizedBox(height: 20),
-                  Text('Nombre de buts : ${MyAppState.Liste_joueurs[J].but}'),
+                  Text('Nombre de buts : ${MyAppState.Liste_joueurs[J].but}',
+                  style: TextStyle(
+                  fontSize: taille_police,
+                )),
                   SizedBox(height: 20),
                   if (MyAppState.Liste_joueurs[J].saison.length<9)
-                  Text('Saison : ${MyAppState.Liste_joueurs[J].saison}'),
+                  Text('Saison : ${MyAppState.Liste_joueurs[J].saison}',
+                  style: TextStyle(
+                  fontSize: taille_police,
+                )),
                   if (MyAppState.Liste_joueurs[J].saison.length>=9)
-                  Text('Saison : ${MyAppState.Liste_joueurs[J].saison.substring(0,9)}'),
+                  Text('Saison : ${MyAppState.Liste_joueurs[J].saison.substring(0,9)}',
+                  style: TextStyle(
+                  fontSize: taille_police,
+                )),
                   if (MyAppState.Liste_joueurs[J].saison.length>11)
-                  Text(MyAppState.Liste_joueurs[J].saison.substring(10,22))
+                  Text(MyAppState.Liste_joueurs[J].saison.substring(10,22),
+                  style: TextStyle(
+                  fontSize: taille_police,
+                ))
                   ]  
                 ),
-                SizedBox(width: 30),
+                SizedBox(width: 14+1/20*MediaQuery.of(context).size.width),
                 Column(
                   children : [
-                  Text('Nom : ${MyAppState.Liste_joueurs[J].nom}'),
+                  Text('Nom : ${MyAppState.Liste_joueurs[J].nom}',
+                  style: TextStyle(
+                  fontSize: taille_police,
+                )),
                   SizedBox(height: 20),
-                  Text('Pays : ${MyAppState.Liste_joueurs[J].pays}'),
+                  Text('Pays : ${MyAppState.Liste_joueurs[J].pays}',
+                  style: TextStyle(
+                  fontSize: taille_police,
+                )),
                   SizedBox(height: 20),
-                  Text('Nombre de match : ${MyAppState.Liste_joueurs[J].match}'),
+                  Text('Nombre de match : ${MyAppState.Liste_joueurs[J].match}',
+                  style: TextStyle(
+                  fontSize: taille_police,
+                )),
                   SizedBox(height: 20),
-                  Text('Numéro : ${MyAppState.Liste_joueurs[J].numero}'),
+                  Text('Numéro : ${MyAppState.Liste_joueurs[J].numero}',
+                  style: TextStyle(
+                  fontSize: taille_police,
+                )),
                   ]  
                 )
               ],
@@ -352,24 +378,31 @@ class DetailPage extends StatelessWidget {
                 ),
                 onPressed: (){
                   appState.toggleFavorite("${MyAppState.Liste_joueurs[J].prenom}" " ${MyAppState.Liste_joueurs[J].nom}");
-              },
-            ),
+                    },
+                  ),
+                ]
+              ),
             ]
-            ),
-          ]
-      ),
-      ),
-    )
+          ),
+        ),
+      )
     );
   }
 }
+
+
+
+
 class Categorie extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     var appState = context.watch<MyAppState>();
     int n = MyAppState.Liste_joueurs.length;
 
+    //liste des postes pour la recherche par critères
     List poste = <String>['Gardien', 'Défenseur', 'Milieu', 'Attaquant'];
+
+    //listes pour rechercher des joueurs selon leur nationalité
     List nationalite = <String>[];
     List nationalite2 = <String>[];
     for (int i=0;i<n;i++){
@@ -377,13 +410,15 @@ class Categorie extends StatelessWidget {
         nationalite.add(MyAppState.Liste_joueurs[i].pays);
       }
     }
+
+    // 4 = nombre de postes
     int N = 4+ nationalite.length;
 
     for (int i=0;i<N;i++){
       appState.criteres.add(false);
     }
     
-
+    //nat sert à constituer la liste des nationalités dans la base de données
     bool nat(List L){
       for (var pays in L){
           if (pays){
@@ -393,6 +428,7 @@ class Categorie extends StatelessWidget {
       return false;
     }
 
+    //sert à savoir quel joueur doit être affiché en fonction des critères cochés
     bool verif_nat(int j){
       for (int i= 0;i<nationalite.length;i++){
         if (appState.criteres[4+i]){
@@ -404,6 +440,7 @@ class Categorie extends StatelessWidget {
       return false;
     }
 
+    //sert à ne pas avoir deux fois le même pays dans les critères
     bool test_nat(String pays){
         if (nationalite2.contains(pays)==false){
           nationalite2.add(pays);
@@ -412,7 +449,7 @@ class Categorie extends StatelessWidget {
       return false;
     }
 
-
+    //sert pour gérer l'affichage des deux barres de critères
     double hauteur_critere(double taille, double chg){
       if (taille>chg){
         return 90;
@@ -423,6 +460,7 @@ class Categorie extends StatelessWidget {
       return taille/3;
     }
 
+    //sert pour gérer l'affichage des deux barres de critères
     double taille_critere(double taille){
       if (taille<350){
         return 180;
@@ -430,6 +468,7 @@ class Categorie extends StatelessWidget {
       return 150;
     }
 
+  //sert pour gérer l'affichage des textButton 
     double taille_button(double taille){
       if (taille<420){
         return 100;
@@ -459,6 +498,8 @@ class Categorie extends StatelessWidget {
                   maxCrossAxisExtent: taille_critere(MediaQuery.of(context).size.width),
                   childAspectRatio: 200/100 
                   ),
+
+
                   children: [
                     for (int i=0;i<poste.length;i++)
                        Column(
@@ -474,21 +515,22 @@ class Categorie extends StatelessWidget {
                                 ),
                               onPressed: (){
                                 appState.critere(i);
-                              },
+                                  },
+                                ),
+                              ]
                             ),
                           ]
                         ),
-          ]
-        ),
-            )
-          ],
-        ),
-        ),
+                      )
+                    ],
+                  ),
+                ),
+
         Padding(padding: const EdgeInsets.all(20),
         child: Text('Nationalité du joueur :',
           style: TextStyle(
           fontSize: 20
-          )
+            )
           ),
         ),
         SizedBox(
@@ -523,13 +565,23 @@ class Categorie extends StatelessWidget {
                             ),
                           ]
                         ),
-                  ]
+                      ]
+                    )
+                  ),
+                ]
               )
-        ),
-                  ]
-        )
             ),
+        Padding(padding: const EdgeInsets.all(20),
+        child: Text('Liste des joueurs :',
+          style: TextStyle(
+          fontSize: 30
+              )
+            ),
+         ),
+
         for (int j=0;j<n;j++)
+
+          //pour chaque joueur, il faut vérifier s'il rentre bien dans les critères cochés par l'utilisateur
           if ((MyAppState.Liste_joueurs[j].poste=='Gardien')&&(appState.criteres[0])
           || (MyAppState.Liste_joueurs[j].poste=='Défenseur')&&(appState.criteres[1])
           || (MyAppState.Liste_joueurs[j].poste=='Milieu')&&(appState.criteres[2])
@@ -538,6 +590,7 @@ class Categorie extends StatelessWidget {
           if ((verif_nat(j))
           || (nat(appState.criteres.sublist(4,appState.criteres.length))==false)
           )
+            //affichage de l'icône favoris, de l'image et du nom du joueur
             ListTile(
               leading: IconButton(
                 icon: Icon(
@@ -564,9 +617,8 @@ class Categorie extends StatelessWidget {
                               );
                             },
                 style: TextButton.styleFrom(
-                  padding: EdgeInsets.symmetric(horizontal: 20, vertical: 10), // Padding
+                  padding: EdgeInsets.symmetric(horizontal: 0, vertical: 0), // Padding
                   textStyle: TextStyle(fontSize: 20),
-                   // Taille du texte
                         ),
                 child: Row(
                   children: [ 
@@ -576,6 +628,11 @@ class Categorie extends StatelessWidget {
                       width: taille_button(MediaQuery.of(context).size.width),
                       height: 80,),
                     SizedBox(width: 10),
+                    //si la page est trop petite, on n'affiche que le nom du joueur
+                    if (MediaQuery.of(context).size.width<=360)
+                    Text(" ${MyAppState.Liste_joueurs[j].nom}",
+                    ),
+                    if (MediaQuery.of(context).size.width>360)
                     Text("${MyAppState.Liste_joueurs[j].prenom}" " ${MyAppState.Liste_joueurs[j].nom}")
                   ],
                 ),
@@ -583,35 +640,5 @@ class Categorie extends StatelessWidget {
             ),
         ],
       );
-  }
-}
-
-
-class BigCard extends StatelessWidget {
-  const BigCard({
-    super.key,
-    required this.pair,
-  });
-
-  final WordPair pair;
-
-  @override
-  Widget build(BuildContext context) {
-    final theme = Theme.of(context);
-    final style = theme.textTheme.displayMedium!.copyWith(
-      color: theme.colorScheme.onPrimary,
-    );
-
-    return Card(
-      color: theme.colorScheme.primary,
-      child: Padding(
-        padding: const EdgeInsets.all(20),
-        child: Text(
-          pair.asLowerCase,
-          style: style,
-          semanticsLabel: "${pair.first} ${pair.second}",
-        ),
-      ),
-    );
   }
 }
