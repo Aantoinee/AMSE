@@ -14,3 +14,9 @@ A few resources to get you started if this is your first Flutter project:
 For help getting started with Flutter development, view the
 [online documentation](https://docs.flutter.dev/), which offers tutorials,
 samples, guidance on mobile development, and a full API reference.
+
+
+git clone https://github.com/Aantoinee/AMSE.git
+cd AMSE/tp1/application1
+flutter create .
+flutter run
