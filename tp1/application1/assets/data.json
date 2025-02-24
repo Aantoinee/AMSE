@@ -9,7 +9,7 @@
         "but": "24",
         "saison": "2015-",
         "pays":"France",
-        "description": "Joueur emblématique du SCO, il a su devenir un taulier de l'équipe au fil des saisons"
+        "description": "Joueur emblématique du SCO, il a su devenir un taulier de l'équipe au fil des saisons."
     },
     {
         "name": "Ndoye",
@@ -21,7 +21,7 @@
         "but": "16",
         "saison": "2015-2017 et 2018-2019",
         "pays":"Sénégal",
-        "description": "Capitaine exemplaire de l'équipe lors de sa première saison dans l'élite"
+        "description": "Capitaine exemplaire de l'équipe lors de sa première saison dans l'élite, il a permis au SCO d'obtenir son meilleur classement en ligue 1."
     },
     {
         "name": "Cho",
@@ -33,7 +33,7 @@
         "but": "4",
         "saison": "2020-2022",
         "pays":"France",
-        "description": "Repéré par le club à 16 ans, il fait ses grands débuts en ligue 1 la même année, devant le plus jeune joueur du club à jouer en ligue 1."
+        "description": "Repéré par le club à 16 ans, il fait ses grands débuts en ligue 1 la même année, devenant le plus jeune joueur du club à jouer en ligue 1."
     },
     {
         "name": "Traoré",
@@ -69,7 +69,7 @@
         "but": "6",
         "saison": "2014-2017",
         "pays":"Côte d'Ivoire",
-        "description": "Très vite repéré, il est l'une des petites qui a explosé au SCO"
+        "description": "Très vite repéré, il est l'une des petites qui a explosé au SCO. Son transfert à Arsenal a permis au club de récupérer une grosse enveloppe."
     },
     {
         "name": "Fulgini",
@@ -81,7 +81,7 @@
         "but": "24",
         "saison": "2017-2022",
         "pays":"France",
-        "description": "C'est un numéro 10 détonateur qui a su être decissif lors des moments importants"
+        "description": "C'est un numéro 10 détonateur qui a su être decissif lors des moments importants."
     },
     {
         "name": "Thomas",
@@ -93,7 +93,7 @@
         "but": "22",
         "saison": "2013-2022",
         "pays":"France",
-        "description": "Un taulier de l'équipe, qui a su a nombreuse reprises garder la cage d'Angers inviolée"
+        "description": "Un taulier de l'équipe, qui a su a nombreuses reprises garder la cage d'Angers inviolée."
     },
     {
         "name": "Boufal",
@@ -105,7 +105,7 @@
         "but": "17",
         "saison": "2012-2015 et 2020-2023",
         "pays":"Maroc",
-        "description": "Formée au club, il fait partie des artisants de la montée en ligue 1 en 2015"
+        "description": "Formée au club, il fait partie des artisants de la montée en ligue 1 en 2015."
     },
     {
         "name": "Ounahi",
@@ -117,7 +117,7 @@
         "but": "2",
         "saison": "2021-2023",
         "pays":"Maroc",
-        "description": "Auteur d'une coupe du monde 2022 exceptionnelle, ce milieu de terrain technique et polyvalent s'est fait transféré à l'OM "
+        "description": "Auteur d'une coupe du monde 2022 exceptionnelle, ce milieu de terrain technique et polyvalent s'est fait transférer à l'OM."
     },
     {
         "name": "Fofana",
@@ -129,7 +129,7 @@
         "but": "0",
         "saison": "2022-",
         "pays":"Côte d'Ivoire",
-        "description": "Il est le gardien qui a permis à la Côte d'Ivoire de gagner la CAN en 2024"
+        "description": "Au club depuis 3 saisons, il a permis à la Côte d'Ivoire de gagner la CAN en 2024 en étant très performant sur penalty."
     },
     {
         "name": "Flavien",
@@ -141,7 +141,7 @@
         "but": "11",
         "saison": "2016-2019",
         "pays":"France",
-        "description": "Auteur d'une magnifique but contre Caen à domicile, il a su montrer l'envergure de son talent lors de ses 3 saisons angevines"
+        "description": "Auteur d'un magnifique but contre Caen à domicile, il a su montrer l'envergure de son talent lors de ses 3 saisons angevines."
     },
     {
         "name": "Saïss",
@@ -153,7 +153,7 @@
         "but": "2",
         "saison": "2015-2016",
         "pays":"Maroc",
-        "description": "Il obtient lors de son unique saison au SCO la distinction de meilleur joueur."
+        "description": "Il obtient lors de son unique saison au SCO la distinction de meilleur joueur du club."
     },
     {
         "name": "Auriac",
@@ -177,7 +177,7 @@
         "but": "25",
         "saison": "2016-2016",
         "pays":"Cameroun",
-        "description": "Excellent finisseur, le camerounais a été l'un des meilleurs attaquant de la saison 2017."
+        "description": "Excellent finisseur, le camerounais a été l'un des meilleurs attaquants de la saison 2017."
     },
     {
         "name": "Butelle",
@@ -219,13 +219,13 @@
         "name": "Charbonnier",
         "prénom": "Gaëtan",
         "poste": "Attaquant",
-        "numéro": "",
+        "numéro": "19",
         "image":"assets/image/charbonnier.jpg",
         "match": "107",
         "but": "31",
         "saison": "2009-2012",
         "pays":"France",
-        "description": "Attaquant vedette d l'équipe, il a su s'imposer au sein de l'attaque angevine."
+        "description": "Attaquant vedette de l'équipe, il a su s'imposer au sein de l'attaque angevine."
     },
     {
         "name": "Kopa",
